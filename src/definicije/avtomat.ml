@@ -42,11 +42,16 @@ let izhodna_funkcija avtomat stanje =
   | None -> None
   | Some (_, izhod) -> Some izhod
 
+  (*let izhodna_funkcija avtomat stanje = 
+    let _, iz = List.find
+      (fun (stanje', _izhod) -> stanje = stanje')
+      avtomat.izhod in
+      iz*)
+
+
 let zacetno_stanje avtomat = avtomat.zacetno_stanje
 let seznam_stanj avtomat = avtomat.stanja
 let seznam_prehodov avtomat = avtomat.prehodi
-let seznam_izhodov avtomat = avtomat.izhod
-
 let cestnina =
   let q0 = Stanje.iz_niza "q0"
   and q1 = Stanje.iz_niza "q1"
@@ -71,14 +76,18 @@ let cestnina =
   |> dodaj_prehod q2 '1' q3 
   |> dodaj_prehod q3 '1' q4
   |> dodaj_prehod q4 '1' q5
+  |> dodaj_prehod q5 '1' q5
   |> dodaj_prehod q0 '2' q2
   |> dodaj_prehod q1 '2' q3
   |> dodaj_prehod q2 '2' q4
-  |> dodaj_izhod q0 "Dodaj denar."
-  |> dodaj_izhod q1 "Dodaj denar."
-  |> dodaj_izhod q2 "Dodaj denar."
-  |> dodaj_izhod q3 "Dodaj denar."
-  |> dodaj_izhod q4 "Dodaj denar."
+  |> dodaj_prehod q3 '2' q5
+  |> dodaj_prehod q4 '2' q5
+  |> dodaj_prehod q5 '2' q5
+  |> dodaj_izhod q0 "Dodaj 5."
+  |> dodaj_izhod q1 "Dodaj 4."
+  |> dodaj_izhod q2 "Dodaj 3."
+  |> dodaj_izhod q3 "Dodaj 2."
+  |> dodaj_izhod q4 "Dodaj 1."
   |> dodaj_izhod q5 "Odpiranje rampe."
 
 let preberi_niz avtomat zacetno_stanje niz =
@@ -87,9 +96,9 @@ let preberi_niz avtomat zacetno_stanje niz =
     | [] -> stanje, List.rev acc_izhodov
     | znak :: ostalo ->
       match prehodna_funkcija avtomat stanje znak with
-      | None -> stanje, List.rev acc_izhodov
+      | None -> stanje, List.rev acc_izhodov  (* Return the current state and reversed outputs if no transition *)
       | Some novo_stanje ->
         let izhod = izhodna_funkcija avtomat novo_stanje in
-        aux novo_stanje (izhod :: acc_izhodov) ostalo 
+        aux novo_stanje (izhod :: acc_izhodov) ostalo  (* Accumulate outputs in reverse order *)
   in
-  aux zacetno_stanje [] (niz |> String.to_seq |> List.of_seq) 
+  aux zacetno_stanje [] (niz |> String.to_seq |> List.of_seq)  (* Convert string to a list of characters *)
