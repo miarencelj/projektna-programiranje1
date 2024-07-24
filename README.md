@@ -20,7 +20,7 @@ Naj bo cestnina 5 evrov. Avtomat sprejema kovance po en in dva evra.
 
 - $\Sigma$ = {0, 1, 2},
 - $\Gamma$ = {"Dodaj 1.", "Dodaj 2.", "Dodaj 3.", "Dodaj 4.", "Dodaj 5.", "Dvigovanje rampe."}
-- $Q = {q_0, q_1, q_2, q_3, q_4, q_5}$, kjer indeks predstavlja količino akumuliranega denarja,
+- $Q = ${$q_0, q_1, q_2, q_3, q_4, q_5$}, kjer indeks predstavlja količino akumuliranega denarja,
 - $q_0 = q_0$,
 - $\delta : Q \times \Sigma \to Q$ :
 podana z naslednjo tabelo
