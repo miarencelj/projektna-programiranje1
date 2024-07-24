@@ -85,11 +85,11 @@ let beri_niz _model =
   PreberiNiz str
 
 let izpisi_rezultat model =
-  let output = Avtomat.izhodna_funkcija model.avtomat model.stanje_avtomata in
+  let izhod = Avtomat.izhodna_funkcija model.avtomat model.stanje_avtomata in
   let prikaz = (
-    match output with
+    match izhod with
     | Some s -> s
-    | None -> "no output"
+    | None -> "ni izhoda"
     ) 
   in
   print_endline (prikaz)

@@ -96,5 +96,3 @@ let preberi_niz avtomat zacetno_stanje niz =
         aux novo_stanje (izhod :: acc_izhodov) ostalo
   in
   aux zacetno_stanje [] (niz |> String.to_seq |> List.of_seq)
-    
-
