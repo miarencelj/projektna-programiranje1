@@ -9,5 +9,6 @@ val izhodna_funkcija : t -> Stanje.t -> string option
 val zacetno_stanje : t -> Stanje.t
 val seznam_stanj : t -> Stanje.t list
 val seznam_prehodov : t -> (Stanje.t * char * Stanje.t) list
+val seznam_izhodov: t -> (Stanje.t * string) list
 val cestnina : t
 val preberi_niz : t -> Stanje.t -> string -> Stanje.t * string option list

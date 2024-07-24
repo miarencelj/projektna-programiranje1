@@ -46,6 +46,7 @@ let update model = function
         stanje_vmesnika = SeznamMoznosti;
       }
   | TrenutnoStanje -> {model with stanje_vmesnika = RezultatPrebranegaNiza;}
+
 let rec izpisi_moznosti () =
   print_endline "1) izpiši avtomat";
   print_endline "2) beri znake";
@@ -58,22 +59,25 @@ let rec izpisi_moznosti () =
   | "3" -> VrniVPrvotnoStanje
   | "4" -> TrenutnoStanje
   | _ ->
-      print_endline "** VNESI 1, 2 ALI 3 **";
+      print_endline "** VNESI 1, 2, 3 ALI 4 **";
       izpisi_moznosti ()
 
-  let izpisi_avtomat avtomat =
-    let izpisi_stanje stanje =
-      let prikaz = Stanje.v_niz stanje in
-      let prikaz =
-        if stanje = zacetno_stanje avtomat then "-> " ^ prikaz else prikaz
-      in
-      let izhod = Avtomat.izhodna_funkcija avtomat stanje in
-      let prikaz = prikaz ^ " : " ^ (match izhod with
-                                      | Some s -> s
-                                      | None -> "no output") in
-      print_endline prikaz
+let izpisi_avtomat avtomat =
+  let izpisi_stanje stanje =
+    let prikaz = Stanje.v_niz stanje in
+    let prikaz =
+      if stanje = zacetno_stanje avtomat then "-> " ^ prikaz else prikaz
     in
-    List.iter izpisi_stanje (seznam_stanj avtomat)
+    let izhod = Avtomat.izhodna_funkcija avtomat stanje in
+    let prikaz = prikaz ^ " : " ^ (
+      match izhod with
+        | Some s -> s
+        | None -> "no output"
+        ) 
+      in
+    print_endline prikaz
+  in
+  List.iter izpisi_stanje (seznam_stanj avtomat)
 
 let beri_niz _model =
   print_string "Vnesi niz > ";
@@ -82,10 +86,13 @@ let beri_niz _model =
 
 let izpisi_rezultat model =
   let output = Avtomat.izhodna_funkcija model.avtomat model.stanje_avtomata in
-  let prikaz = (match output with
-        | Some s -> s
-        | None -> "no output") in
-  print_endline ("Output: " ^ prikaz)
+  let prikaz = (
+    match output with
+    | Some s -> s
+    | None -> "no output"
+    ) 
+  in
+  print_endline (prikaz)
 
 let view model =
   match model.stanje_vmesnika with
@@ -98,7 +105,7 @@ let view model =
       izpisi_rezultat model;
       ZamenjajVmesnik SeznamMoznosti
   | OpozoriloONapacnemNizu ->
-      print_endline "Niz ni veljaven";
+      print_endline "Neveljaven vnos. Sprejemam le kovance 1 ali 2.";
       ZamenjajVmesnik SeznamMoznosti
 
 let init avtomat =

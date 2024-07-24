@@ -42,16 +42,10 @@ let izhodna_funkcija avtomat stanje =
   | None -> None
   | Some (_, izhod) -> Some izhod
 
-  (*let izhodna_funkcija avtomat stanje = 
-    let _, iz = List.find
-      (fun (stanje', _izhod) -> stanje = stanje')
-      avtomat.izhod in
-      iz*)
-
-
 let zacetno_stanje avtomat = avtomat.zacetno_stanje
 let seznam_stanj avtomat = avtomat.stanja
 let seznam_prehodov avtomat = avtomat.prehodi
+let seznam_izhodov avtomat = avtomat.izhod
 let cestnina =
   let q0 = Stanje.iz_niza "q0"
   and q1 = Stanje.iz_niza "q1"
@@ -96,9 +90,11 @@ let preberi_niz avtomat zacetno_stanje niz =
     | [] -> stanje, List.rev acc_izhodov
     | znak :: ostalo ->
       match prehodna_funkcija avtomat stanje znak with
-      | None -> stanje, List.rev acc_izhodov  (* Return the current state and reversed outputs if no transition *)
+      | None -> stanje, List.rev acc_izhodov
       | Some novo_stanje ->
         let izhod = izhodna_funkcija avtomat novo_stanje in
-        aux novo_stanje (izhod :: acc_izhodov) ostalo  (* Accumulate outputs in reverse order *)
+        aux novo_stanje (izhod :: acc_izhodov) ostalo
   in
-  aux zacetno_stanje [] (niz |> String.to_seq |> List.of_seq)  (* Convert string to a list of characters *)
+  aux zacetno_stanje [] (niz |> String.to_seq |> List.of_seq)
+    
+
