@@ -2,8 +2,6 @@
 
 Projekt vsebuje implementacijo Moorovih avtomatov in njihovo uporabo pri avtomatu za pobiranje cestnine.
 
-TODO
-
 ## Matematična definicija
 
 Moorov avtomat je definiran kot nabor $(\Sigma, \Gamma, Q, q_0, \delta, \gamma)$, kjer so:
@@ -13,28 +11,41 @@ Moorov avtomat je definiran kot nabor $(\Sigma, \Gamma, Q, q_0, \delta, \gamma)$
 - $Q$ množica stanj,
 - $q_0 \in Q$ začetno stanje,
 - $\delta : Q \times \Sigma \to Q$ prehodna funkcija,
-- $\gamma : Q \to \Gamma$ funkcija, ki stanja slika v abecedo izhodov (izhodna funkcija).
+- $\gamma : Q \to \Gamma$ izhodna funkcija.
 
 ## Primer
 
 V primeru avtomata za pobiranje cestnine, lahko avtomat opišemo na sledeč način.
-Naj bo cestnina 1 €. Avtomat sprejema kovance: 1 cent, 2 centa, 5 centov, 10 centov, 20 centov in 50 centov.
+Naj bo cestnina 5 evrov. Avtomat sprejema kovance po en in dva evra.
 
-- $\Sigma$ : množica vseh različnih kovancev, ki jih avtomat sprejema,
-- $\Gamma$ : dvigovanje rampe, pobiranje cestnine,
-- $Q$ : akumulirana količina denarja,
-- $q_0$ : 0 €,
-- $\delta : Q \times \Sigma \to Q$ : na podlagi vhoda določi prehod med stanji,
-- $\gamma : Q \to \Gamma$ : določa izhod na podlagi trenutnega stanja.
+- $\Sigma$ = {0, 1, 2},
+- $\Gamma$ = {"Dodaj 1.", "Dodaj 2.", "Dodaj 3.", "Dodaj 4.", "Dodaj 5.", "Dvigovanje rampe."}
+- $Q$ = {$q_0, q_1, q_2, q_3, q_4, q_5$}, kjer indeks predstavlja količino akumuliranega denarja,
+- $q_0 = q_0$,
+- $\delta : Q \times \Sigma \to Q$ :
+podana z naslednjo tabelo
+
+    | $\delta$ | `0`   | `1`   | `2`   |
+    | -------- | ----- | ----- | ----- |
+    | $q_0$    | $q_0$ | $q_1$ | $q_2$ |
+    | $q_1$    | $q_1$ | $q_2$ | $q_3$ |
+    | $q_2$    | $q_2$ | $q_3$ | $q_4$ |
+    | $q_3$    | $q_3$ | $q_4$ | $q_5$ |
+    | $q_4$    | $q_4$ | $q_5$ | $q_5$ |
+    | $q_5$    | $q_5$ | $q_5$ | $q_5$ |
+
+
+- $\gamma : Q \to \Gamma$ : opišemo z relacijo: {($q_0$, "Dodaj 5."), ($q_1$, "Dodaj 4."), ($q_2$, "Dodaj 3."), ($q_3$, "Dodaj 2."), ($q_4$, "Dodaj 1."), ($q_5$, "Odpiranje rampe.")}.
 
 
 ## Navodila za uporabo
 
+Tekstovni vmesnik prevedemo z ukazom `dune build`, ki ustvari datoteko `tekstovniVmesnik.exe`. Potem v terminal napišemo še ukaz `./tekstovniVmesnik.exe`, ki datoteko požene.
 
 ## Struktura datotek
 
-TODO
-
+Projekt je sestavljen iz mape `src`, ki vsebuje mapi `definicije` in `tekstovniVmesnik`.
+Prva vsebuje datoteke za implementacijo avtomata, druga pa implementacijo teksotovnega vmesnika.
 
 ### Viri
 - https://en.wikipedia.org/wiki/Moore_machine
